@@ -24,7 +24,11 @@ jobs:
       - name: Start application
         run: |
           node app.js &
-          sleep 10
+          echo "Waiting for app to start on port 3030..."
+          for i in {1..20}; do
+            nc -z localhost 3030 && echo "✅ App is running on port 3030" && break
+            sleep 1
+          done
 
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.10.0
