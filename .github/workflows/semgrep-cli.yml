@@ -1,0 +1,19 @@
+name: SAST - Semgrep (CLI Test Mode)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep scan (non-blocking)
+        run: semgrep --config=auto .
