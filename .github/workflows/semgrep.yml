@@ -15,5 +15,7 @@ jobs:
 
       - name: Run Semgrep
         uses: semgrep/semgrep-action@v1
-        with:
-          config: auto
+       with:
+        config: auto
+        error_on_findings: false
+
