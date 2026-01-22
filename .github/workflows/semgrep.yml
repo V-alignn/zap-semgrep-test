@@ -1,9 +1,10 @@
 name: SAST - Semgrep
 
 on:
-  pull_request:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+  pull_request:
 
 jobs:
   semgrep:
@@ -13,9 +14,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Semgrep
+      - name: Run Semgrep (non-blocking)
         uses: semgrep/semgrep-action@v1
-       with:
-        config: auto
-        error_on_findings: false
-
+        with:
+          config: auto
+          error_on_findings: false
