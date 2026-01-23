@@ -1,8 +1,7 @@
-name: SAST - Semgrep (CLI Test Mode)
+name: SAST - Semgrep (CLI)
 
 on:
   push:
-    branches: [main]
   pull_request:
 
 jobs:
@@ -10,10 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install Semgrep
         run: pip install semgrep
 
-      - name: Run Semgrep scan (non-blocking)
-        run: semgrep --config=auto .
+      - name: Run Semgrep (JSON output)
+        run: semgrep --config=auto --json > semgrep-report.json
+
+      - name: Upload Semgrep report
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-sast-report
+          path: semgrep-report.json
