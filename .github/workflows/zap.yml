@@ -36,3 +36,13 @@ jobs:
         with:
           target: "http://localhost:3030"
           cmd_options: "-I"
+          fail_action: false
+
+      - name: Upload ZAP reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-dast-report
+          path: |
+            report_html.html
+            report_md.md
+            report_json.json
