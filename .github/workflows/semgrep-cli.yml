@@ -21,7 +21,7 @@ jobs:
       # ✅ YOU CAN ADD THIS AT THE END
       - name: Generate SAST HTML report
         run: |
-          python scripts/semgrep_to_html.py
+          python .github/scripts/semgrep_to_html.py
 
       - name: Upload SAST HTML report
         uses: actions/upload-artifact@v4
