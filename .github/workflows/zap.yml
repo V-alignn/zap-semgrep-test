@@ -3,6 +3,7 @@ name: DAST - OWASP ZAP (Baseline)
 permissions:
   contents: read
   actions: read
+  checks: write
 
 on:
   workflow_dispatch:
@@ -22,29 +23,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm init -y
-          npm install express
+          npm install
 
       - name: Start application
         run: |
           node app.js &
-          echo "Waiting for app to start on port 3030..."
-          for i in {1..30}; do
-            nc -z localhost 3030 && echo "✅ App is running on port 3030" && break
-            sleep 1
-          done
-          nc -z localhost 3030 || (echo "❌ App did not start on port 3030" && exit 1)
+          sleep 10
 
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.10.0
         with:
-          target: "http://localhost:3030"
-
-      - name: Upload ZAP Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: zap-dast-report
-          path: |
-            report_html.html
-            report_md.md
-            report_json.json
+          target: 'http://localhost:3030'
+          cmd_options: '-I'
