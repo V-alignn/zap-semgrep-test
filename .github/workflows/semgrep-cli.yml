@@ -18,8 +18,13 @@ jobs:
       - name: Run Semgrep (JSON output)
         run: semgrep --config=auto --json > semgrep-report.json
 
-      - name: Upload Semgrep report
+      # ✅ YOU CAN ADD THIS AT THE END
+      - name: Generate SAST HTML report
+        run: |
+          python scripts/semgrep_to_html.py
+
+      - name: Upload SAST HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: semgrep-sast-report
-          path: semgrep-report.json
+          name: sast-html-report
+          path: sast-report.html
